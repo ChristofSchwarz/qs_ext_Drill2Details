@@ -133,7 +133,7 @@ define( ["qlik","jquery"], function (qlik, $) {
 									label: "Christof Schwarz on Github",
 									component: "button", 
 									action: function(arg) {
-										window.open('https://github.com/ChristofSchwarz','_blank');
+										window.open('https://github.com/ChristofSchwarz/qs_ext_Drill2Details','_blank');
 									}
 								}
 							]
