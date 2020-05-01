@@ -1,6 +1,7 @@
 define(["qlik", "jquery"], function(qlik, $) {
    'use strict';
-
+   var version = '0.9';
+   
    function arrayUnique(array) {
       var a = array.concat();
       for (var i = 0; i < a.length; ++i) {
@@ -300,6 +301,9 @@ define(["qlik", "jquery"], function(qlik, $) {
                label: "About",
                type: "items",
                items: [{
+			      label: "Version: " + version,
+                  component: "text"
+               }, {
                   label: "Extension by Christof Schwarz",
                   component: "text"
                }, {
