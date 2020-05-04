@@ -1,9 +1,9 @@
 define(["qlik", "jquery"], function(qlik, $) {
    'use strict';
    var version = '0.91';
-
+   
    function arrayUnique(array) {
-      // function to remove duplicate entries from an text array
+   // function to remove duplicate entries from an text array
       var a = array.concat();
       for (var i = 0; i < a.length; ++i) {
          for (var j = i + 1; j < a.length; ++j) {
@@ -18,53 +18,54 @@ define(["qlik", "jquery"], function(qlik, $) {
    var underApperance = {
       label: "Label and Alignment",
       type: "items",
-      items: [{
-            ref: "prop_cbLabel",
-            label: "Label for checkbox",
-            type: "string",
-            expression: "optional",
-            defaultValue: "Drill to detail"
-         },
-         {
-            component: "switch",
-            type: "boolean",
-            ref: "prop_Switch1",
-            label: "Drill function on start is",
-            defaultValue: true,
-            options: [{
-                  value: true,
-                  label: "Enabled"
-               },
-               {
-                  value: false,
-                  label: "Disabled"
-               }
-            ]
-         },
+      items:
+         [{
+               ref: "prop_cbLabel",
+               label: "Label for checkbox",
+               type: "string",
+               expression: "optional",
+               defaultValue: "Drill to detail"
+            },
+            {
+               component: "switch",
+               type: "boolean",
+               ref: "prop_Switch1",
+               label: "Drill function on start is",
+               defaultValue: true,
+               options: [{
+                     value: true,
+                     label: "Enabled"
+                  },
+                  {
+                     value: false,
+                     label: "Disabled"
+                  }
+               ]
+            },
 
-         {
-            label: 'Alignment of text',
-            type: 'string',
-            component: 'item-selection-list',
-            icon: true,
-            horizontal: true,
-            ref: 'prop_align',
-            defaultValue: 'left',
-            items: [{
-               value: 'left',
-               component: 'icon-item',
-               icon: '\u2190'
-            }, {
-               value: 'center',
-               icon: '\u2194',
-               component: 'icon-item'
-            }, {
-               value: 'right',
-               icon: '\u2192',
-               component: 'icon-item'
-            }]
-         }
-      ]
+            {
+               label: 'Alignment of text',
+               type: 'string',
+               component: 'item-selection-list',
+               icon: true,
+               horizontal: true,
+               ref: 'prop_align',
+               defaultValue: 'left',
+               items: [{
+                  value: 'left',
+                  component: 'icon-item',
+                  icon: '\u2190'
+               }, {
+                  value: 'center',
+                  icon: '\u2194',
+                  component: 'icon-item'
+               }, {
+                  value: 'right',
+                  icon: '\u2192',
+                  component: 'icon-item'
+               }]
+            }
+         ]
    }
 
    var mainsection1 = {
@@ -98,7 +99,7 @@ define(["qlik", "jquery"], function(qlik, $) {
          }
       }
    };
-
+  
    var mainsection2 = {
       label: "On Drill Trigger Action",
       type: "items",
@@ -210,24 +211,25 @@ define(["qlik", "jquery"], function(qlik, $) {
             }
          },
          {
+		    // ************** Copy all fields button **************
             label: "\u2191 Copy fields of below table",
-            component: "button", /////////////////////////// Copy all fields button
+            component: "button",  
             ref: "prop_table",
             action: function(arg) {
-
+			 
                console.log(arg);
-               var thisId = arg.qInfo.qId;
-               var app = qlik.currApp();
-               var enigma = app.model.enigmaModel;
-               var qFormula = "Concat({<$Table={\"" + arg.prop_fromTable + "\"},$Field-={\"(" + arg.prop_ignoreFields + ")\"}>} DISTINCT $Field, '\",\"', $FieldNo)";
-               var thisVizModel;
-               app.visualization.get(thisId).then(function(res) {
-                  thisVizModel = res.model;
-                  return enigma.evaluate(qFormula);
-               }).then(function(res) {
-                  var oldArr;
-                  var props = thisVizModel.properties;
-                  console.log('prop_objJson', props.prop_objJson);
+			   var thisId = arg.qInfo.qId;
+			   var app = qlik.currApp();
+			   var enigma = app.model.enigmaModel;
+			   var qFormula = "Concat({<$Table={\"" + arg.prop_fromTable + "\"},$Field-={\"(" + arg.prop_ignoreFields + ")\"}>} DISTINCT $Field, '\",\"', $FieldNo)";
+			   var thisVizModel;
+			   app.visualization.get(thisId).then(function(res){
+			     thisVizModel = res.model;
+			     return enigma.evaluate(qFormula);
+			   }).then(function(res) {
+			      var oldArr;
+				  var props = thisVizModel.properties;
+				  console.log('prop_objJson',props.prop_objJson);
                   if (props.prop_objJson.qStringExpression == undefined) {
                      oldArr = props.prop_objJson;
                   } else {
@@ -238,24 +240,20 @@ define(["qlik", "jquery"], function(qlik, $) {
                   if (oldArr.length == 0) oldArr = '[]';
                   try {
                      oldArr = JSON.parse(oldArr);
-                     console.log('oldArr', oldArr);
-                     var newArr = JSON.parse('["' + res + '"]');
-                     var bothArr = arrayUnique(oldArr.concat(newArr));
-                     console.log('Fieldlist', bothArr);
-                     //arg.prop_objJson = JSON.stringify(bothArr).replace(/\",\"/g, '",\n"').replace('[', '[\n').replace(']', '\n]');
-                     props.prop_objJson = {
-                        qStringExpression: {
-                           qExpr: "='" +
-                              JSON.stringify(bothArr).replace(/\",\"/g, '",\n"').replace('[', '[\n').replace(']', '\n]') + "'"
-                        }
-                     };
-                     thisVizModel.setProperties(props);
+					 console.log ('oldArr', oldArr);
+					  var newArr = JSON.parse('["' + res + '"]');
+					  var bothArr = arrayUnique(oldArr.concat(newArr));
+					  console.log('Fieldlist', bothArr);
+					  //arg.prop_objJson = JSON.stringify(bothArr).replace(/\",\"/g, '",\n"').replace('[', '[\n').replace(']', '\n]');
+					  props.prop_objJson = {qStringExpression: {qExpr: "='" + 
+					  JSON.stringify(bothArr).replace(/\",\"/g, '",\n"').replace('[', '[\n').replace(']', '\n]') + "'"}};
+					  thisVizModel.setProperties(props);
                   } catch {
-                     alert('This is not proper Json in the "Columns" text box. Clear it or write column array manually.');
+				     alert('This is not proper Json in the "Columns" text box. Clear it or write column array manually.');
                      // oldArr = [];
                   }
                });
-
+			   
             },
             show: function(data) {
                return data.prop_RB1 == "newobj" && data.prop_fromTable.length > 0
@@ -288,7 +286,7 @@ define(["qlik", "jquery"], function(qlik, $) {
             label: "Ignore fields like pattern",
             type: "string",
             defaultValue: "*id|%*",
-            show: function(data) {
+			show: function(data) {
                return data.prop_RB1 == "newobj"
             }
          }, {
@@ -302,7 +300,7 @@ define(["qlik", "jquery"], function(qlik, $) {
    }
 
    /// ************** MAIN CODE ************** 
-
+   
    return {
       //template: template,
       initialProperties: {
@@ -333,7 +331,7 @@ define(["qlik", "jquery"], function(qlik, $) {
                label: "About",
                type: "items",
                items: [{
-                  label: "Version: " + version,
+			      label: "Version: " + version,
                   component: "text"
                }, {
                   label: "Extension by Christof Schwarz",
@@ -353,7 +351,7 @@ define(["qlik", "jquery"], function(qlik, $) {
         export: false,
         exportData : false
       },*/
-
+	   
       paint: function($element, layout) {
          var self = this;
          var ownId = this.options.id;
