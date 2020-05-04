@@ -8,5 +8,7 @@ To install
  * on Qlik Sense Enterprise (Server): download this repo as .Zip and upload in your QMC / Extensions
  * on Qlik Sense Desktop: download this repo as .zip and unzip into My Documents folder \Qlik\Sense\Extensions
  
+ Preview:
+ ![screenshot](https://github.com/ChristofSchwarz/pics/raw/master/drill2details.gif "screenshot")
 
 
