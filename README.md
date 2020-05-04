@@ -1,6 +1,6 @@
 # Qlik Sense Drill to Details generic extension
 
-Qlik Sense extension to open a new sheet or a detail object upon selection. This does not link to a specific object type, it works with every standard object, even filterboxes and current-selections. 
+Qlik Sense extension to open a new sheet or a detail object upon selection. Since it watches the app's field selections, it is generic and works with every viszalization object, even filterboxes and in the current-selection bar. 
 
 <a href="https://www.youtube.com/watch?v=-SwJeyUTWhc"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/200px-YouTube_Logo_2017.svg.png" width="100"/> &nbsp;Explanation see my video</a>
 
