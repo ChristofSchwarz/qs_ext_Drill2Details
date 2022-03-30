@@ -3,11 +3,11 @@
 	"description": "Generic listener for single-selectios to make navigation or to show objects",
 	"icon": "table",
 	"type": "visualization",
-	"version": "1.0.0",
-	"author": "",
-	"homepage": "",
+	"version": "1.0.1",
+	"author": "Christof Schwarz",
+	"homepage": "www.databridge.ch",
 	"keywords": "qlik-sense, visualization",
-	"license": "",
+	"license": "MIT",
 	"repository": "",
 	"dependencies": {
 		"qlik-sense": ">=3.0.x"
